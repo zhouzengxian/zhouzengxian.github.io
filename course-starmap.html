@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>桃源刺绣 · 知识库课程星图</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #000;
+  color: #e0e0e0;
+  font-family: 'Noto Sans SC', sans-serif;
+  overflow: hidden;
+  height: 100vh;
+}
+
+canvas#stars { position: fixed; top: 0; left: 0; z-index: 0; }
+
+#app {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  text-align: center;
+  padding: 20px 20px 10px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+}
+
+header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #4fc3f7, #ce93d8, #ffd54f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 4px;
+}
+
+header p {
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ---- Module Nav ---- */
+.module-nav {
+  width: 280px;
+  padding: 10px 12px;
+  overflow-y: auto;
+  background: rgba(5,5,15,0.85);
+  border-right: 1px solid rgba(79,195,247,0.15);
+  flex-shrink: 0;
+}
+
+.module-nav::-webkit-scrollbar { width: 4px; }
+.module-nav::-webkit-scrollbar-thumb { background: rgba(79,195,247,0.3); border-radius: 2px; }
+
+.module-card {
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.module-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 10px;
+}
+
+.module-card:hover::before { opacity: 1; }
+.module-card:hover { border-color: rgba(255,255,255,0.15); transform: translateX(3px); }
+.module-card.active { border-color: var(--mc); background: rgba(255,255,255,0.06); }
+.module-card.active::before { opacity: 1; }
+
+.module-card .mod-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--mc);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.module-card .mod-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 2px;
+  color: #ccc;
+}
+
+.module-card .mod-meta {
+  font-size: 11px;
+  color: #555;
+  margin-top: 4px;
+}
+
+.module-card.active .mod-title { color: #fff; }
+
+/* ---- Content ---- */
+.content {
+  flex: 1;
+  padding: 20px 30px;
+  overflow-y: auto;
+}
+
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-thumb { background: rgba(79,195,247,0.3); border-radius: 2px; }
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+
+.welcome .big-icon { font-size: 64px; margin-bottom: 20px; }
+
+.welcome h2 {
+  font-size: 22px;
+  font-weight: 300;
+  color: #4fc3f7;
+  margin-bottom: 12px;
+}
+
+.welcome p { color: #666; font-size: 14px; line-height: 1.8; }
+
+.module-view { animation: fadeUp 0.4s ease; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.module-view .mv-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(79,195,247,0.15);
+}
+
+.module-view .mv-num {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--mc);
+}
+
+.module-view .mv-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 4px;
+}
+
+.module-view .mv-desc {
+  font-size: 13px;
+  color: #888;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+.lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.lesson-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.lesson-card:hover {
+  border-color: var(--mc);
+  background: rgba(255,255,255,0.06);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 30px var(--mc-glow);
+}
+
+.lesson-card .lc-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--mc);
+  opacity: 0.7;
+}
+
+.lesson-card .lc-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ddd;
+  margin-top: 4px;
+}
+
+.lesson-card .lc-points {
+  margin-top: 10px;
+  list-style: none;
+}
+
+.lesson-card .lc-points li {
+  font-size: 12px;
+  color: #777;
+  padding: 2px 0;
+  padding-left: 12px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.lesson-card .lc-points li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--mc);
+  opacity: 0.5;
+}
+
+/* ---- Stats bar ---- */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  padding: 12px 20px;
+  background: rgba(5,5,15,0.9);
+  border-top: 1px solid rgba(79,195,247,0.1);
+  font-size: 12px;
+  color: #555;
+}
+
+.stats-bar span { color: #4fc3f7; font-weight: 500; }
+
+/* ---- Shooting stars ---- */
+.shooting-star {
+  position: fixed;
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(79,195,247,0.8), transparent);
+  z-index: 0;
+  animation: shoot 1s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes shoot {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(200px); }
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<div id="app">
+  <header>
+    <h1>桃源刺绣 · 知识库课程星图</h1>
+    <p>58节小课 · 9大模块 · 从图片到图谱的完整旅程</p>
+  </header>
+
+  <div class="main">
+    <div class="module-nav" id="moduleNav"></div>
+    <div class="content" id="contentArea">
+      <div class="welcome">
+        <div class="big-icon">🌌</div>
+        <h2>点击左侧星系，探索课程宇宙</h2>
+        <p>9大星系，58颗知识星辰<br>从 Obsidian 入门到 AI Agent 工作流<br>每颗星都是一节3-8分钟的小课</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div>模块 <span>9</span></div>
+    <div>小课 <span>58</span></div>
+    <div>总时长 <span>≈5.5h</span></div>
+    <div>每节 <span>3-8min</span></div>
+  </div>
+</div>
+
+<script>
+const MODULES = [
+  {
+    id: 1, num: '模块一', title: 'Obsidian 入门', lessons: 8, duration: '40分钟',
+    color: '#4fc3f7', glow: 'rgba(79,195,247,0.15)',
+    desc: '从零开始，认识你的本地知识库',
+    items: [
+      { t: '什么是 Obsidian', pts: ['本地双链笔记工具','和Word/笔记软件的本质区别','桃源刺绣库预览'] },
+      { t: '打开你的桃源刺绣库', pts: ['用Obsidian打开已有库','三栏布局：文件栏/编辑区/面板','拖拽调整布局'] },
+      { t: '第一篇笔记：读和改', pts: ['打开「瑞兽.md」','编辑模式 vs 阅读模式','修改文字并保存'] },
+      { t: 'Markdown 基础', pts: ['标题#/粗体**/列表-','图片嵌入![]()','链接[[]]','看懂即可'] },
+      { t: '图片笔记怎么看', pts: ['数据图库下的笔记','图片显示与缩放','frontmatter不要乱改'] },
+      { t: '搜索与快速跳转', pts: ['Ctrl+O 快速打开','Ctrl+Shift+F 全局搜索','按标签搜索 #瑞兽'] },
+      { t: '书签与收藏', pts: ['给常用笔记加书签','书签面板的使用'] },
+      { t: '日常使用习惯', pts: ['每天怎么打开浏览关掉','不要删.obsidian文件夹','备份意识'] },
+    ]
+  },
+  {
+    id: 2, num: '模块二', title: '认识你的库结构', lessons: 6, duration: '30分钟',
+    color: '#81c784', glow: 'rgba(129,199,132,0.15)',
+    desc: '6大加工阶段，200+标签，一篇笔记的三件套',
+    items: [
+      { t: '库的整体结构一图看懂', pts: ['6大数据图库文件夹','标签关系文件夹','数据图库 vs 标签关系'] },
+      { t: '数据图库：6个加工阶段', pts: ['30_d→30_g 高清采集','31_a 人智共创','32_a 图形增强','33_a 因子描摹','34_a 风格迁移'] },
+      { t: '一篇数据笔记的完整内容', pts: ['以 a(1).md 为例','.md + .png + .txt 三件套','frontmatter: tags与cover'] },
+      { t: '标签关系笔记怎么来的', pts: ['打开 标签关系/瑞兽.md','汇总了哪些内容','链接列表的生成逻辑'] },
+      { t: '文件夹看板与标签看板', pts: ['看板视图的使用','不同看板的适用场景'] },
+      { t: 'Canvas 画布功能', pts: ['打开canvas文件','卡片式排版','拖拽笔记到画布'] },
+    ]
+  },
+  {
+    id: 3, num: '模块三', title: '标签系统', lessons: 7, duration: '35分钟',
+    color: '#ce93d8', glow: 'rgba(206,147,216,0.15)',
+    desc: '标签即连线，200+标签如何组织与维护',
+    items: [
+      { t: '标签是什么？为什么是核心', pts: ['桃源刺绣库标签体系概览','标签 vs 文件夹','200+标签的理解方式'] },
+      { t: '标签六大分类', pts: ['动物/植物/人物/器物/场景/风格','每个类别的典型标签','图谱颜色分组看标签'] },
+      { t: '标签面板的使用', pts: ['打开标签面板','按标签筛选笔记','标签数量统计'] },
+      { t: '给笔记加标签', pts: ['frontmatter里写标签','正文中用 #标签','两种方式的区别'] },
+      { t: '标签层级与关联', pts: ['瑞兽→狮子/麒麟/貔貅','花卉→牡丹/荷花/梅花','层级在图谱中的体现'] },
+      { t: '用 Dataview 查询标签', pts: ['Dataview插件简介','列出含特定标签的笔记','复制模板改就行'] },
+      { t: '标签维护注意事项', pts: ['删标签前看影响范围','改名要全局替换','新增标签命名规范'] },
+    ]
+  },
+  {
+    id: 4, num: '模块四', title: '双向链接', lessons: 6, duration: '30分钟',
+    color: '#ffd54f', glow: 'rgba(255,213,79,0.15)',
+    desc: '[[]]链接、反向链接、嵌入——知识网络的基础',
+    items: [
+      { t: '双向链接是什么', pts: ['[[笔记名]] 的写法','点进去、跳回来','和普通超链接的区别'] },
+      { t: '反向链接面板', pts: ['打开笔记看反向链接','谁提到了我','实操：打开「牡丹」看引用'] },
+      { t: '出链与入链', pts: ['出链：引用了谁','入链：被谁引用','在图谱中的对应'] },
+      { t: '用链接构建知识网络', pts: ['什么时候加链接','链接密度不是越多越好','手动建立链接实操'] },
+      { t: '别名 Aliases', pts: ['一篇笔记多个名字','frontmatter设置aliases','用别名跳转'] },
+      { t: '嵌入 Embed', pts: ['![[笔记名]] 嵌入内容','嵌入图片和表格','嵌入相关刺绣图片实操'] },
+    ]
+  },
+  {
+    id: 5, num: '模块五', title: '知识图谱可视化', lessons: 12, duration: '60分钟',
+    color: '#4dd0e1', glow: 'rgba(77,208,225,0.15)',
+    desc: '图谱是知识库的灵魂——12节课深度掌握',
+    items: [
+      { t: '打开你的关系图谱', pts: ['图谱图标/命令面板','全局图 vs 局部图','拖拽/缩放/悬停'] },
+      { t: '图谱上看到的是什么', pts: ['节点=笔记','连线=链接','大小=连接数','颜色=标签分组'] },
+      { t: '图谱颜色分组详解', pts: ['图谱设置齿轮','colorGroups配置','7个颜色组解读'] },
+      { t: '图谱筛选与搜索', pts: ['搜索特定笔记','按标签/路径过滤','只看某个文件夹'] },
+      { t: '力度与布局调整', pts: ['中心引力centerStrength','斥力repelStrength','连接距离linkDistance'] },
+      { t: '孤儿节点：发现知识盲区', pts: ['没有链接的笔记','开启showOrphans','给孤儿建立连接'] },
+      { t: '局部图谱：聚焦主题', pts: ['在笔记中开局部图谱','深度1跳/2跳/3跳','聚焦「瑞兽」实操'] },
+      { t: '图谱导航技巧', pts: ['快速定位节点','按住拖拽观察','双击跳转笔记'] },
+      { t: '关联标签页：双栏联动', pts: ['左笔记+右图谱双栏','点击图谱节点→左栏跳转','沿关系链逐篇阅读'] },
+      { t: 'Ctrl+悬停节点预览', pts: ['按住Ctrl+滑过节点','弹出预览卡片','快速判断是否目标笔记'] },
+      { t: '图谱截图与分享', pts: ['截图方法','分享注意事项','导出为图片'] },
+      { t: '图谱日常使用场景', pts: ['看全局找灵感','聚焦标签专题','双栏+Ctrl预览组合用法'] },
+    ]
+  },
+  {
+    id: 6, num: '模块六', title: 'CSS 代码片段', lessons: 6, duration: '30分钟',
+    color: '#ff8a65', glow: 'rgba(255,138,101,0.15)',
+    desc: '用CSS片段自定义图谱外观，AI Agent帮你写代码',
+    items: [
+      { t: '什么是 CSS 代码片段', pts: ['外观自定义的原理','snippets文件夹位置','已有3个片段'] },
+      { t: '启用/关闭 CSS 片段', pts: ['设置→外观→CSS代码片段','刷新片段列表','开关即时生效'] },
+      { t: '图谱风格切换实操', pts: ['graph-starry 霓虹发光','graph-red 红色主题','graph-black 纯黑极简'] },
+      { t: 'CSS 代码解读', pts: ['graph-starry.css为例','.color-node/line/text','改一个颜色试试'] },
+      { t: '用 AI Agent 写 CSS', pts: ['告诉AI你的需求','AI生成CSS代码','粘贴启用看效果','反复迭代调色'] },
+      { t: '常见自定义模板', pts: ['改图谱背景色','改节点颜色和大小','改连线和透明度','3个现成模板'] },
+    ]
+  },
+  {
+    id: 7, num: '模块七', title: '项目工作流', lessons: 6, duration: '30分钟',
+    color: '#b39ddb', glow: 'rgba(179,157,219,0.15)',
+    desc: '从图片到图谱的完整工作流——可迁移到任何项目',
+    items: [
+      { t: '项目工作流全景图', pts: ['图片采集→打标签→AI生成md→图谱','标签即连线的核心逻辑','桃源刺绣库就是成品'] },
+      { t: '图片整理与打标签', pts: ['命名与分文件夹','jpg+txt配对','#标签1#标签2+描述','手动创建txt实操'] },
+      { t: 'AI Agent 自动创建 md', pts: ['读取jpg+txt生成md','frontmatter从txt提取','cover指向图片'] },
+      { t: '标签关系笔记生成', pts: ['按标签聚合生成索引','标签节点自动拥有连线','反向索引的生成逻辑'] },
+      { t: '工作流的通用性', pts: ['非遗/产品/设计/植物图鉴均可','关键变量：标签体系','不需调整：Obsidian结构/图谱/CSS'] },
+      { t: '从0到1跑通新项目', pts: ['10张图片手动走一遍','先粗后细迭代标签','常见坑：太粗vs太细'] },
+    ]
+  },
+  {
+    id: 8, num: '模块八', title: 'AI Agent 进阶', lessons: 4, duration: '20分钟',
+    color: '#f06292', glow: 'rgba(240,98,146,0.15)',
+    desc: '批量处理、标签迭代、Agent辅助的多场景应用',
+    items: [
+      { t: 'AI Agent 批量处理', pts: ['文件夹下所有图片一次处理','脚本的输入输出','出错了检查和修正'] },
+      { t: '用 Agent 新增笔记', pts: ['新来一批图片如何入库','跑一遍Agent流程','检查结果手动修正'] },
+      { t: '标签体系迭代', pts: ['图片增多标签需扩展','图谱发现新标签需求','Agent+人工协同更新'] },
+      { t: 'Agent 辅助其他场景', pts: ['用Agent写CSS片段','批量重命名/整理笔记','生成标签关系笔记'] },
+    ]
+  },
+  {
+    id: 9, num: '模块九', title: '维护与进阶', lessons: 5, duration: '25分钟',
+    color: '#aed581', glow: 'rgba(174,213,129,0.15)',
+    desc: '日常维护清单、备份同步、问题排查',
+    items: [
+      { t: '日常维护清单', pts: ['每周：浏览图谱检查孤儿','每月：整理标签删除重复','随时：新增图片及时入库'] },
+      { t: '备份与同步', pts: ['iCloud同步注意事项','手动备份.obsidian','误删恢复方法'] },
+      { t: '常见问题排查', pts: ['图谱不显示/异常','图片加载不出来','笔记乱码','CSS不生效'] },
+      { t: '进阶插件推荐', pts: ['Dataview 数据查询','Canvas 画布','Calendar 日历','Templater 模板'] },
+      { t: '课程总结与学习路线', pts: ['9个模块核心要点回顾','接下来深入的方向','持续学习资源推荐'] },
+    ]
+  }
+];
+
+let activeModule = null;
+
+function renderNav() {
+  const nav = document.getElementById('moduleNav');
+  nav.innerHTML = MODULES.map(m => `
+    <div class="module-card" data-id="${m.id}" style="--mc:${m.color};--mc-glow:${m.glow}" onclick="selectModule(${m.id})">
+      <div class="mod-num">${m.num}</div>
+      <div class="mod-title">${m.title}</div>
+      <div class="mod-meta">${m.lessons}节课 · ${m.duration}</div>
+    </div>
+  `).join('');
+}
+
+function selectModule(id) {
+  activeModule = id;
+  document.querySelectorAll('.module-card').forEach(c => c.classList.toggle('active', +c.dataset.id === id));
+  const m = MODULES.find(m => m.id === id);
+  const area = document.getElementById('contentArea');
+  area.style.setProperty('--mc', m.color);
+  area.style.setProperty('--mc-glow', m.glow);
+
+  area.innerHTML = `
+    <div class="module-view">
+      <div class="mv-header">
+        <div class="mv-num" style="color:${m.color}">${m.num}</div>
+        <div class="mv-title">${m.title}</div>
+        <div class="mv-desc">${m.desc}</div>
+      </div>
+      <div class="lesson-grid">
+        ${m.items.map((it, i) => `
+          <div class="lesson-card" style="--mc:${m.color};--mc-glow:${m.glow}">
+            <div class="lc-num">${m.num.replace('模块','')}.${i+1}</div>
+            <div class="lc-title">${it.t}</div>
+            <ul class="lc-points">
+              ${it.pts.map(p => `<li>${p}</li>`).join('')}
+            </ul>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  area.scrollTop = 0;
+}
+
+// ---- Starfield ----
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+let W, H, stars = [], connections = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 300; i++) {
+    stars.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.5 + 0.3,
+      a: Math.random(),
+      da: (Math.random() - 0.5) * 0.01,
+      vx: (Math.random() - 0.5) * 0.15,
+      vy: (Math.random() - 0.5) * 0.15,
+    });
+  }
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, W, H);
+
+  // Draw connections
+  for (let i = 0; i < stars.length; i++) {
+    for (let j = i + 1; j < stars.length; j++) {
+      const dx = stars[i].x - stars[j].x;
+      const dy = stars[i].y - stars[j].y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if (d < 100) {
+        ctx.beginPath();
+        ctx.moveTo(stars[i].x, stars[i].y);
+        ctx.lineTo(stars[j].x, stars[j].y);
+        ctx.strokeStyle = `rgba(79,195,247,${0.08 * (1 - d/100)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Draw stars
+  for (const s of stars) {
+    s.a += s.da;
+    if (s.a > 1 || s.a < 0.2) s.da = -s.da;
+    s.x += s.vx;
+    s.y += s.vy;
+    if (s.x < 0) s.x = W;
+    if (s.x > W) s.x = 0;
+    if (s.y < 0) s.y = H;
+    if (s.y > H) s.y = 0;
+
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(200,220,255,${s.a})`;
+    ctx.fill();
+  }
+
+  requestAnimationFrame(drawStars);
+}
+
+// Shooting star
+function shootStar() {
+  const el = document.createElement('div');
+  el.className = 'shooting-star';
+  el.style.top = Math.random() * H * 0.5 + 'px';
+  el.style.left = Math.random() * W * 0.6 + 'px';
+  el.style.transform = `rotate(${30 + Math.random()*20}deg)`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1000);
+}
+
+setInterval(() => { if (Math.random() > 0.6) shootStar(); }, 3000);
+
+window.addEventListener('resize', () => { resize(); initStars(); });
+resize();
+initStars();
+drawStars();
+renderNav();
+</script>
+</body>
+</html>
