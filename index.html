@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zhou Zengxian - Agent & VibeCoding Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 粒子背景 -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">ZX</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#agent">Agent Practice</a></li>
+                <li><a href="#vibecoding">VibeCoding</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="glitch" data-text="Zhou Zengxian">Zhou Zengxian</h1>
+                <p class="subtitle">Agent Developer & VibeCoding Enthusiast</p>
+                <p class="description">
+                    Building intelligent agents and exploring the future of human-AI collaboration
+                </p>
+                <div class="hero-buttons">
+                    <a href="#agent" class="btn btn-primary">View My Work</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="code-window">
+                    <div class="window-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="window-title">agent_demo.py</span>
+                    </div>
+                    <div class="window-body">
+                        <pre><code><span class="line-number">1</span>  <span class="keyword">class</span> <span class="class-name">Agent</span>:
+<span class="line-number">2</span>      <span class="keyword">def</span> <span class="function">__init__</span>(<span class="self">self</span>):
+<span class="line-number">3</span>          <span class="self">self</span>.memory = []
+<span class="line-number">4</span>          <span class="self">self</span>.tools = []
+<span class="line-number">5</span>
+<span class="line-number">6</span>      <span class="keyword">def</span> <span class="function">run</span>(<span class="self">self</span>, task):
+<span class="line-number">7</span>          <span class="keyword">return</span> <span class="self">self</span>.execute(task)
+<span class="line-number">8</span>
+<span class="line-number">9</span>  agent = <span class="class-name">Agent</span>()
+<span class="line-number">10</span>  agent.run(<span class="string">"Build something amazing"</span>)</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll Down</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        I'm a developer passionate about building intelligent agents and exploring 
+                        VibeCoding - the art of coding with AI assistance. My work focuses on 
+                        creating practical agent systems that can understand, reason, and execute tasks.
+                    </p>
+                    <p>
+                        With experience in both traditional software development and cutting-edge AI, 
+                        I bridge the gap between human intent and machine execution.
+                    </p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-number">15+</span>
+                            <span class="stat-label">Agents Built</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">30+</span>
+                            <span class="stat-label">VibeCoding Projects</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">5+</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="tech-stack">
+                        <div class="tech-item" data-delay="0">Python</div>
+                        <div class="tech-item" data-delay="100">LangChain</div>
+                        <div class="tech-item" data-delay="200">OpenAI</div>
+                        <div class="tech-item" data-delay="300">Node.js</div>
+                        <div class="tech-item" data-delay="400">React</div>
+                        <div class="tech-item" data-delay="500">Docker</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agent Practice Section -->
+    <section id="agent" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">Agent Practice</h2>
+            <p class="section-subtitle">Real-world agent implementations and case studies</p>
+            
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Personal Assistant Agent</h3>
+                    <p>
+                        A multi-modal agent that manages calendar, emails, and reminders 
+                        through natural language commands. Integrates with OpenClaw for 
+                        seamless workflow automation.
+                    </p>
+                    <div class="project-tags">
+                        <span>Python</span>
+                        <span>LangChain</span>
+                        <span>OpenAI GPT-4</span>
+                    </div>
+                    <a href="#" class="project-link">View Case Study →</a>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Code Review Agent</h3>
+                    <p>
+                        Automated code review system that analyzes pull requests, 
+                        suggests improvements, and enforces coding standards. 
+                        Reduced review time by 60%.
+                    </p>
+                    <div class="project-tags">
+                        <span>GitHub API</span>
+                        <span>Anthropic Claude</span>
+                        <span>FastAPI</span>
+                    </div>
+                    <a href="#" class="project-link">View Case Study →</a>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Data Analysis Agent</h3>
+                    <p>
+                        Intelligent agent that connects to multiple data sources, 
+                        performs analysis, and generates actionable insights with 
+                        natural language explanations.
+                    </p>
+                    <div class="project-tags">
+                        <span>Python</span>
+                        <span>Pandas</span>
+                        <span>Plotly</span>
+                    </div>
+                    <a href="#" class="project-link">View Case Study →</a>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="project-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Customer Support Agent</h3>
+                    <p>
+                        RAG-powered support agent with context awareness and 
+                        multi-turn conversation memory. Handles 80% of Tier-1 
+                        support queries autonomously.
+                    </p>
+                    <div class="project-tags">
+                        <span>RAG</span>
+                        <span>Vector DB</span>
+                        <span>FastAPI</span>
+                    </div>
+                    <a href="#" class="project-link">View Case Study →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VibeCoding Section -->
+    <section id="vibecoding" class="section">
+        <div class="container">
+            <h2 class="section-title">VibeCoding Cases</h2>
+            <p class="section-subtitle">Coding with AI - where human creativity meets machine intelligence</p>
+            
+            <div class="vibecoding-grid">
+                <!-- Case 1 -->
+                <div class="vibe-card">
+                    <div class="vibe-header">
+                        <i class="fas fa-music"></i>
+                        <h3>AI Music Generator</h3>
+                    </div>
+                    <div class="vibe-content">
+                        <p><strong>Vibe:</strong> "Create a web app that generates music from emotions"</p>
+                        <p><strong>Result:</strong> Full-stack app built in 2 hours with AI assistance</p>
+                        <div class="vibe-code-snippet">
+                            <code>User: "Make it generate sad piano melodies"<br>AI: *implements tone.js logic*<br>Result: ✅ Working prototype</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="vibe-card">
+                    <div class="vibe-header">
+                        <i class="fas fa-gamepad"></i>
+                        <h3>Game Prototype</h3>
+                    </div>
+                    <div class="vibe-content">
+                        <p><strong>Vibe:</strong> "Build a snake game with power-ups and multiplayer"</p>
+                        <p><strong>Result:</strong> Complete game with WebSocket multiplayer in 4 hours</p>
+                        <div class="vibe-code-snippet">
+                            <code>User: "Add competitive mode"<br>AI: *restructures game loop*<br>Result: ✅ Real-time multiplayer</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="vibe-card">
+                    <div class="vibe-header">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Data Viz Dashboard</h3>
+                    </div>
+                    <div class="vibe-content">
+                        <p><strong>Vibe:</strong> "Dashboard that visualizes my coding patterns"</p>
+                        <p><strong>Result:</strong> D3.js + React dashboard with real-time GitHub API</p>
+                        <div class="vibe-code-snippet">
+                            <code>User: "Show my most productive hours"<br>AI: *creates heatmap visualization*<br>Result: ✅ Insightful analytics</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vibe-philosophy">
+                <h3>My VibeCoding Philosophy</h3>
+                <p>
+                    "VibeCoding is not about letting AI write all your code. It's about maintaining 
+                    a creative flow state where AI handles the boilerplate while you focus on architecture, 
+                    user experience, and the bigger picture. The best results come from iterative 
+                    collaboration - human intuition guided by AI capabilities."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">Skills & Expertise</h2>
+            
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3><i class="fas fa-robot"></i> Agent Development</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span class="skill-name">LangChain / LangGraph</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">OpenAI GPT Integration</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Anthropic Claude API</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">RAG Systems</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3><i class="fas fa-code"></i> Software Engineering</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span class="skill-name">Python</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">JavaScript / TypeScript</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">React / Next.js</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">FastAPI / Flask</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3><i class="fas fa-tools"></i> Tools & Platforms</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span class="skill-name">Git / GitHub</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Docker / Kubernetes</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="70"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">AWS / GCP</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="65"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">OpenClaw</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="section-subtitle">Interested in collaboration or just want to say hi?</p>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:zhouzengxian@qq.com">zhouzengxian@qq.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-github"></i>
+                        <a href="https://github.com/zhouzengxian" target="_blank">github.com/zhouzengxian</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-twitter"></i>
+                        <a href="#" target="_blank">@zhouzengxian</a>
+                    </div>
+                </div>
+                
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Zhou Zengxian. Built with <i class="fas fa-heart"></i> and <i class="fas fa-robot"></i></p>
+            <p class="footer-tagline">Agent Developer & VibeCoding Enthusiast</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
